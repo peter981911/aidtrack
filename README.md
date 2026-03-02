@@ -66,4 +66,16 @@ npm start
 By default, the frontend runs on `http://localhost:3000` and the backend on `http://localhost:5000`.
 
 ---
+
+## 🔒 Security & Using as a Template
+**Your uploaded codebase is completely secure.** Because your live database credentials (`MONGO_URI`) and `JWT_SECRET` are stored in a `.env` file that is ignored by Git, no one downloading this repository can access your production MongoDB Atlas database.
+
+**Want to use this for your own organization?**
+This project is built to be a template. If you clone or download this repository, you must connect it to **your own database**:
+1. Create a free cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+2. Get your own connection string.
+3. In the `aidtrack-backend` folder, copy the `aidtrack-backend/.env.example` file and rename it to `.env`.
+4. Paste your connection string into the `MONGO_URI` field and make up a long, random string for the `JWT_SECRET`.
+
+---
 <p align="center"><i>Developed with ❤️ for efficient and transparent humanitarian aid.</i></p>
