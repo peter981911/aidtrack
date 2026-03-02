@@ -1,7 +1,7 @@
 // src/components/SignupForm.jsx
 import React, { useState } from 'react';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import Button from './ui/Button';
 import Card from './ui/Card';
@@ -29,7 +29,7 @@ function SignupForm() {
     setIsLoading(true);
 
     try {
-      await axios.post('http://localhost:5001/api/signup', {
+      await api.post('/signup', {
         fullName,
         username,
         email,
