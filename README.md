@@ -13,7 +13,7 @@
 </p>
 
 ## 🌍 Live Demo
-**Experience the live application here:** [https://aidtrack.vercel.app](https://aidtrack.vercel.app)
+**Experience the live application here:** [https://aidtrack-sage.vercel.app/](https://aidtrack.vercel.app)
 *(Backend API hosted on [https://aidtrack.onrender.com](https://aidtrack.onrender.com))*
 
 > **Note:** The live demo uses a shared database for demonstration purposes. Please do not enter sensitive or real personal information.
