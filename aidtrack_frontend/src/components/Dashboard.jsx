@@ -29,18 +29,18 @@ const UsersIcon = () => <svg xmlns="http://www.w3.org/2000/svg" fill="none" view
 
 // --- StatCard component ---
 const StatCard = ({ title, value, icon, colorClass }) => (
-  <Card hover className="relative overflow-hidden border-t-4 border-t-white/20">
-    <div className={`absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 rounded-full ${colorClass} opacity-20 blur-xl`}></div>
+  <div className={`relative overflow-hidden rounded-[2rem] p-6 shadow-xl border border-white/20 bg-white/80 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl`}>
+    <div className={`absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 rounded-full ${colorClass} opacity-10 blur-2xl`}></div>
     <div className="relative z-10 flex items-start justify-between">
       <div>
-        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{title}</p>
-        <p className="mt-2 text-3xl font-bold text-gray-800">{value}</p>
+        <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">{title}</p>
+        <p className="text-4xl font-bold text-gray-900 tracking-tight">{value}</p>
       </div>
-      <div className={`p-3 rounded-lg ${colorClass} text-white shadow-lg`}>
+      <div className={`p-4 rounded-2xl ${colorClass} text-white shadow-lg`}>
         {icon}
       </div>
     </div>
-  </Card>
+  </div>
 );
 // --- End StatCard ---
 
@@ -142,12 +142,25 @@ function Dashboard() {
 
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-heading font-bold text-gray-900">Dashboard Overview</h2>
-        <span className="text-sm text-gray-500 font-medium bg-white px-3 py-1 rounded-full border border-gray-200 shadow-sm">
-          Last 7 Days
-        </span>
+    <div className="space-y-8 animate-fade-in pb-12">
+      {/* Hero Header */}
+      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-secondary-dark rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl mb-10 border border-white/10">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-10 left-10 w-96 h-96 bg-secondary-light/20 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <h2 className="text-4xl sm:text-5xl font-heading font-bold text-white mb-3 tracking-tight">Dashboard Overview</h2>
+            <p className="text-white/80 text-lg max-w-2xl font-light">
+              Track distribution trends, active volunteers, and remaining stock at a glance.
+            </p>
+          </div>
+          <div>
+            <span className="text-sm text-primary-dark font-bold bg-white/90 px-4 py-2 rounded-2xl shadow-lg backdrop-blur-md">
+              Last 7 Days
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Stats Section */}
@@ -178,10 +191,10 @@ function Dashboard() {
 
       {/* Chart Section */}
       <div className="mt-8">
-        <Card className="p-6">
+        <Card className="p-8 border-0 shadow-xl bg-white/80 backdrop-blur-xl ring-1 ring-black/5 rounded-[2rem]">
           <div className="mb-6">
-            <h3 className="text-lg font-heading font-bold text-gray-900">Distribution Trends</h3>
-            <p className="text-sm text-gray-500">Daily aid distribution volume</p>
+            <h3 className="text-2xl font-heading font-bold text-gray-900 mb-1">Distribution Trends</h3>
+            <p className="text-base text-gray-500 font-light">Daily aid distribution volume</p>
           </div>
 
           <div className="relative h-80 w-full">

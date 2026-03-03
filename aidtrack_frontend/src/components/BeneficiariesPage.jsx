@@ -146,23 +146,38 @@ function BeneficiariesPage() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-heading font-bold text-gray-900">Beneficiary Management</h2>
-        {message && (
-          <span className="px-4 py-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium animate-fade-in">
-            {message}
-          </span>
-        )}
-        {error && (
-          <span className="px-4 py-2 rounded-lg bg-red-100 text-red-700 text-sm font-medium animate-fade-in">
-            {error}
-          </span>
-        )}
+    <div className="space-y-8 animate-fade-in pb-12">
+      {/* Hero Header */}
+      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-secondary-dark rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl mb-10 border border-white/10">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-10 left-10 w-96 h-96 bg-secondary-light/20 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <h2 className="text-4xl sm:text-5xl font-heading font-bold text-white mb-3 tracking-tight">Beneficiary Management</h2>
+            <p className="text-white/80 text-lg max-w-2xl font-light">
+              Register new families, manage records, and ensure proper aid distribution with full transparency and efficiency.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 w-full md:w-auto">
+            {message && (
+              <div className="px-6 py-3 rounded-2xl bg-green-500/20 backdrop-blur-md border border-green-400/30 text-green-50 font-medium animate-fade-in shadow-lg flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                {message}
+              </div>
+            )}
+            {error && (
+              <div className="px-6 py-3 rounded-2xl bg-red-500/20 backdrop-blur-md border border-red-400/30 text-red-50 font-medium animate-fade-in shadow-lg flex items-center gap-2">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                {error}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Registration Form */}
-      <Card className="border-t-4 border-t-primary">
+      <Card className="border-0 shadow-xl bg-white/80 backdrop-blur-xl ring-1 ring-black/5 rounded-[2rem] p-8">
         <h3 className="text-lg font-heading font-semibold text-gray-800 mb-6">Register New Family</h3>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
           <div>
@@ -249,7 +264,7 @@ function BeneficiariesPage() {
       </div>
 
       {/* Beneficiaries Table */}
-      <Card className="p-0 overflow-hidden">
+      <Card className="p-0 overflow-hidden border-0 shadow-xl bg-white/80 backdrop-blur-xl ring-1 ring-black/5 rounded-[2rem]">
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50/50">
