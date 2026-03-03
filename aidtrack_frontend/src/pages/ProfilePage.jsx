@@ -85,28 +85,28 @@ function ProfilePage() {
   return (
     <div className="space-y-8 animate-fade-in pb-12">
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-secondary-dark rounded-[2.5rem] p-8 sm:p-12 overflow-hidden shadow-2xl mb-10 border border-white/10">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-10 left-10 w-96 h-96 bg-secondary-light/20 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="relative bg-gradient-to-br from-primary-dark via-primary to-secondary-dark rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-xl mb-8 border border-white/10">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-10 left-10 w-64 h-64 bg-secondary-light/20 rounded-full mix-blend-overlay filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
 
-        <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
           {/* Avatar Placeholder */}
-          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-white/20 backdrop-blur-md border-[3px] border-white/30 flex items-center justify-center shadow-2xl shrink-0">
-            <span className="text-4xl sm:text-5xl font-heading font-bold text-white shadow-sm">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 backdrop-blur-md border-[2px] border-white/30 flex items-center justify-center shadow-lg shrink-0">
+            <span className="text-3xl sm:text-4xl font-heading font-bold text-white shadow-sm">
               {user.username.substring(0, 2).toUpperCase()}
             </span>
           </div>
 
           <div className="text-center md:text-left flex-1">
-            <h1 className="text-4xl sm:text-5xl font-heading font-bold text-white mb-2 tracking-tight">My Profile</h1>
-            <p className="text-white/80 text-lg font-light flex items-center justify-center md:justify-start gap-2">
+            <h1 className="text-3xl sm:text-4xl font-heading font-bold text-white mb-1 tracking-tight">My Profile</h1>
+            <p className="text-white/80 text-base font-light flex items-center justify-center md:justify-start gap-2">
               <span className="inline-block w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
               Welcome back, <span className="font-semibold text-white">{user.fullName || user.username}</span>
             </p>
           </div>
 
           <div>
-            <button onClick={() => navigate(-1)} className="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all shadow-lg flex items-center gap-2 font-medium">
+            <button onClick={() => navigate(-1)} className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all shadow-md flex items-center gap-2 font-medium text-sm">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
               Go Back
             </button>
