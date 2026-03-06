@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const crypto = require('crypto');
 
 // --- APP CONFIGURATION ---
@@ -19,30 +19,13 @@ const BCRYPT_SALT_ROUNDS = 10;
 app.use(cors());
 app.use(express.json());
 
-// --- EMAIL CONFIGURATION ---
-let transporter;
-if (process.env.SMTP_USER && process.env.SMTP_PASS) {
-  transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS
-    }
-  });
+// --- EMAIL CONFIGURATION (RESEND API - BYPASSES SMTP BLOCKS) ---
+let resend;
+if (process.env.RESEND_API_KEY) {
+  resend = new Resend(process.env.RESEND_API_KEY);
+  console.log('✅ Resend Email API initialized');
 } else {
-  nodemailer.createTestAccount((err, account) => {
-    if (err) {
-      console.error('Failed to create a testing account. ' + err.message);
-    } else {
-      console.log('✅ Created Ethereal Test Email Account for local dev');
-      transporter = nodemailer.createTransport({
-        host: account.smtp.host,
-        port: account.smtp.port,
-        secure: account.smtp.secure,
-        auth: { user: account.user, pass: account.pass }
-      });
-    }
-  });
+  console.warn('⚠️ WARNING: RESEND_API_KEY is missing. Emails will not be sent.');
 }
 
 // --- DATABASE CONNECTION ---
@@ -162,31 +145,39 @@ app.post('/api/send-otp', async (req, res) => {
     await OTP.findOneAndDelete({ email }); // Clear previous
     await OTP.create({ email, otp });
 
-    const mailOptions = {
-      from: '"AidTrack Verification" <noreply@aidtrack.com>',
-      to: email,
-      subject: 'AidTrack Verification Code',
-      html: `
-        <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
-          <h2 style="color: #333;">Verify your email address</h2>
-          <p style="color: #555; line-height: 1.5;">Please use the following 6-digit verification code to complete your signup process for AidTrack.</p>
-          <div style="background-color: #f4f4f4; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0;">
-            <span style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #1a56db;">${otp}</span>
+    if (resend) {
+      const { data, error } = await resend.emails.send({
+        from: 'AidTrack <onboarding@resend.dev>', // Resend's default testing domain
+        to: [email],
+        subject: 'AidTrack Verification Code',
+        html: `
+          <div style="font-family: sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
+            <h2 style="color: #333;">Verify your email address</h2>
+            <p style="color: #555; line-height: 1.5;">Please use the following 6-digit verification code to complete your signup process for AidTrack.</p>
+            <div style="background-color: #f4f4f4; padding: 15px; text-align: center; border-radius: 8px; margin: 20px 0;">
+              <span style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #1a56db;">${otp}</span>
+            </div>
+            <p style="color: #777; font-size: 14px;">This code will expire in 15 minutes. If you did not request this, please ignore this email.</p>
           </div>
-          <p style="color: #777; font-size: 14px;">This code will expire in 15 minutes. If you did not request this, please ignore this email.</p>
-        </div>
-      `
-    };
+        `
+      });
 
-    if (transporter) {
-      await transporter.sendMail(mailOptions);
+      if (error) {
+        console.error("Resend API Error:", error);
+        return res.status(500).json({ message: 'Failed to send email via Resend.', error: error.message });
+      }
+
+      console.log('Verification email sent via Resend:', data);
       res.status(200).json({ message: 'Verification code sent to your email!' });
+
     } else {
-      res.status(500).json({ message: 'Server email system is not configured yet.' });
+      // Fallback for local testing without API key: just print the code in the terminal
+      console.log(`\n=== 🧪 LOCAL DEV MODE: Email Bypassed ===\nOTP Code for ${email} is: ${otp}\n=========================================\n`);
+      res.status(200).json({ message: 'Verification code sent! (Check the backend server console if running locally)' });
     }
   } catch (error) {
-    console.error("OTP Send Error:", error);
-    res.status(500).json({ message: 'Failed to send email. Please check server logs.', error: error.message });
+    console.error("OTP Configure Error:", error);
+    res.status(500).json({ message: 'Server error processing request.', error: error.message });
   }
 });
 
